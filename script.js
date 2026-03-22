@@ -424,6 +424,47 @@
     }
 
     /* ------------------------------------------
+       9. THEME TOGGLE
+       ------------------------------------------ */
+    function initThemeToggle() {
+        const toggle = document.getElementById('theme-toggle');
+        const icon = document.getElementById('theme-icon');
+        if (!toggle || !icon) return;
+
+        // Set correct icon for current theme
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'light') {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+
+        toggle.addEventListener('click', () => {
+            const html = document.documentElement;
+            const isLight = html.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Swap icon
+            if (newTheme === 'light') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+    }
+
+    // Apply saved theme instantly (before DOMContentLoaded) to prevent flash
+    (function () {
+        const saved = localStorage.getItem('theme');
+        if (saved) {
+            document.documentElement.setAttribute('data-theme', saved);
+        }
+    })();
+
+    /* ------------------------------------------
        INIT ALL
        ------------------------------------------ */
     document.addEventListener('DOMContentLoaded', () => {
@@ -435,6 +476,7 @@
         initNavigation();
         initTerminalAnimation();
         initFooterYear();
+        initThemeToggle();
     });
 
 })();
