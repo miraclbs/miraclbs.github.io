@@ -179,41 +179,14 @@
        5. PROJECT MODAL
        ------------------------------------------ */
     const projectData = {
-        elektraweb: {
-            badge: 'API Entegrasyon',
-            title: 'ElektraWeb API Entegrasyonu',
-            desc: 'ElektraWeb, otel yönetim sistemleri için geliştirilmiş REST tabanlı bir API servisidir. Bu projede kullanıcı oturum açma, rezervasyon sorgulama ve reCAPTCHA doğrulama işlemleri için API entegrasyonu yapıldı.',
-            challenge: 'Farklı otel PMS sistemleriyle uyumlu, güvenli ve ölçeklenebilir bir API katmanı oluşturmak. reCAPTCHA doğrulama akışını sunucu tarafında yönetmek ve JWT tabanlı oturum yönetimini hatasız entegre etmek.',
-            solution: 'REST mimarisinde modüler endpoint yapısı tasarlandı. JWT ile güvenli token yönetimi sağlandı. Google reCAPTCHA sunucu tarafı doğrulaması entegre edildi ve Postman/Insomnia ile kapsamlı API testleri gerçekleştirildi.',
-            tech: ['REST API', 'JWT Authentication', 'Google reCAPTCHA', 'JSON Parsing', 'Postman'],
-            link: 'https://miraclbs.github.io/elektra-web'
-        },
         portfolio: {
             badge: 'Frontend',
             title: 'Kişisel Portfolio Web Sitesi',
-            desc: 'Modern teknolojiler ve tasarım trendleri ile oluşturulmuş kişisel portfolyo sitesi. Dark-theme odaklı, yüksek etkileşimli ve performans optimizeli.',
+            desc: 'Modern teknolojiler ve tasarım trendleri ile oluşturulmuş kişisel portfolyo sitesi. Dark-theme odaklı, yüksek etkileşimli ve performans optimizeli. Glassmorphism, Bento Grid, Custom Cursor ve 3D Tilt efektleri.',
             challenge: 'Herhangi bir framework kullanmadan, saf HTML/CSS/JS ile premium seviyede bir deneyim oluşturmak. 60 FPS animasyonlar ve erişilebilirlik standartlarını aynı anda sağlamak.',
-            solution: 'CSS Custom Properties ile modüler tasarım sistemi kuruldu. IntersectionObserver API ile performanslı scroll animasyonları, requestAnimationFrame ile akıcı cursor ve tilt efektleri geliştirildi.',
-            tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'CSS Grid'],
+            solution: 'CSS Custom Properties ile modüler tasarım sistemi kuruldu. IntersectionObserver API ile performanslı scroll animasyonları, requestAnimationFrame ile akıcı cursor ve tilt efektleri geliştirildi. AI destekli kodlama süreçleriyle hızlı iterasyon sağlandı.',
+            tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'CSS Grid', 'AI Destekli Geliştirme'],
             link: 'https://miraclbs.github.io'
-        },
-        rentacar: {
-            badge: 'Full-stack',
-            title: 'Rent-a-Car Admin Panel',
-            desc: 'Araç kiralama işletmeleri için geliştirilmiş kapsamlı yönetim paneli. Müşteri, araç envanteri ve kiralama süreçlerinin dijital takibi.',
-            challenge: 'Gerçek zamanlı araç müsaitlik kontrolü, çakışan kiralama tarihlerinin yönetimi ve çoklu kullanıcı rollerine göre erişim kontrolü.',
-            solution: 'React tabanlı modern UI ile kullanıcı dostu arayüz tasarlandı. Node.js backend ile RESTful API geliştirildi. DatePicker, canlı saat ve düzenlenebilir fiyat modülleri entegre edildi.',
-            tech: ['React', 'Node.js', 'PostgreSQL', 'REST API', 'JWT', 'SWR'],
-            link: null
-        },
-        tradingbot: {
-            badge: 'Backend / Data',
-            title: 'RSI Strateji Analiz Motoru',
-            desc: 'Tarihsel piyasa verileri üzerinde RSI göstergelerine dayalı ticaret stratejileri geliştirme ve performans analizi platformu.',
-            challenge: 'Büyük hacimli tarihsel veriyi hızlı işlemek, farklı zaman dilimlerinde (1 ay — 2 yıl) strateji performansını karşılaştırmak ve %55.5 üzerinde kazanç oranı hedeflemek.',
-            solution: 'Python ile veri analiz pipeline kuruldu. 5-dakikalık ve saatlik RSI crossover stratejileri test edildi. Zaman dilimi bazlı performans raporu ve gün içi saat analizleri otomatik olarak üretildi.',
-            tech: ['Python', 'Pandas', 'Data Analysis', 'RSI Indicator', 'Backtesting'],
-            link: null
         }
     };
 
@@ -367,10 +340,10 @@
                 output: [
                     '{',
                     '  <span class="output-key">"ad"</span>: <span class="output-string">"Atıf Miraç İlbaş"</span>,',
-                    '  <span class="output-key">"rol"</span>: <span class="output-string">"Full-stack Geliştirici"</span>,',
-                    '  <span class="output-key">"konum"</span>: <span class="output-string">"Türkiye"</span>,',
-                    '  <span class="output-key">"stack"</span>: [<span class="output-string">".NET"</span>, <span class="output-string">"Node.js"</span>, <span class="output-string">"React"</span>],',
-                    '  <span class="output-key">"durum"</span>: <span class="output-string">"Projelere açık ✓"</span>',
+                    '  <span class="output-key">"rol"</span>: <span class="output-string">"Yazılım Mühendisi"</span>,',
+                    '  <span class="output-key">"konum"</span>: <span class="output-string">"Ankara, TR"</span>,',
+                    '  <span class="output-key">"stack"</span>: [<span class="output-string">"React"</span>, <span class="output-string">"Next.js"</span>, <span class="output-string">".NET"</span>],',
+                    '  <span class="output-key">"ai"</span>: <span class="output-string">"Prompt Engineering ✓"</span>',
                     '}'
                 ]
             },
@@ -378,16 +351,17 @@
                 cmd: 'git log --oneline -3',
                 output: [
                     '<span class="output-value">a1b2c3d</span> feat: portfolio redesign ✨',
-                    '<span class="output-value">e4f5g6h</span> fix: API security layer',
-                    '<span class="output-value">i7j8k9l</span> refactor: clean architecture'
+                    '<span class="output-value">e4f5g6h</span> feat: AI-powered dev workflow',
+                    '<span class="output-value">i7j8k9l</span> refactor: Next.js architecture'
                 ]
             },
             {
-                cmd: 'npm run build',
+                cmd: 'npx next build',
                 output: [
-                    '<span class="output-value">✓</span> Compiled successfully in <span class="output-string">1.2s</span>',
-                    '<span class="output-value">✓</span> Bundle size: <span class="output-string">42kb</span> gzipped',
-                    '<span class="output-value">✓</span> Ready for deployment 🚀'
+                    '<span class="output-value">✓</span> Compiled in <span class="output-string">1.8s</span>',
+                    '<span class="output-value">✓</span> Linting and type checking',
+                    '<span class="output-value">✓</span> Collecting build traces',
+                    '<span class="output-value">✓</span> Deploy ready 🚀'
                 ]
             }
         ];
