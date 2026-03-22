@@ -1,250 +1,466 @@
-// DOM Elements
-const hamburger = document.querySelector('.hamburger');
-const navMenu = document.querySelector('.nav-menu');
-const navbar = document.querySelector('.navbar');
-const navLinks = document.querySelectorAll('.nav-link');
+/**
+ * ==========================================
+ *  PORTFOLIO — INTERACTION ENGINE
+ *  Modüler, 60 FPS optimizeli vanilla JS
+ * ==========================================
+ */
 
-// Mobile Navigation Toggle
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navMenu.classList.toggle('active');
-});
+(function () {
+    'use strict';
 
-// Close mobile menu when clicking on a link
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    });
-});
-
-// Navbar Background on Scroll
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(15, 23, 42, 0.98)';
-        navbar.style.borderBottom = '1px solid rgba(148, 163, 184, 0.2)';
-    } else {
-        navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-        navbar.style.borderBottom = '1px solid rgba(148, 163, 184, 0.1)';
+    /* ------------------------------------------
+       UTILITY: Throttle & RAF
+       ------------------------------------------ */
+    function throttle(fn, ms) {
+        let last = 0;
+        return function (...args) {
+            const now = Date.now();
+            if (now - last >= ms) { last = now; fn.apply(this, args); }
+        };
     }
-});
 
-// Smooth Scrolling for Anchor Links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 70; // Account for fixed navbar
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+    /* ------------------------------------------
+       1. CUSTOM CURSOR
+       ------------------------------------------ */
+    function initCustomCursor() {
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        if (!cursor || !follower) return;
+
+        // Check for touch device
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
+
+        let mx = 0, my = 0, fx = 0, fy = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mx = e.clientX;
+            my = e.clientY;
+            cursor.style.left = mx + 'px';
+            cursor.style.top = my + 'px';
+        });
+
+        // Smooth follower with RAF
+        function animateFollower() {
+            fx += (mx - fx) * 0.12;
+            fy += (my - fy) * 0.12;
+            follower.style.left = fx + 'px';
+            follower.style.top = fy + 'px';
+            requestAnimationFrame(animateFollower);
         }
-    });
-});
+        animateFollower();
 
-// Active Navigation Link Highlighting
-const sections = document.querySelectorAll('section');
-const observerOptions = {
-    threshold: 0.3,
-    rootMargin: '-70px 0px -70px 0px'
-};
+        // Hover states for project cards (show "GÖR")
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+            card.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            card.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            // Remove active class from all nav links
+        // Hover states for links and buttons
+        document.querySelectorAll('a, button, .filter-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if (!document.body.classList.contains('cursor-hover')) {
+                    document.body.classList.add('cursor-link');
+                }
+            });
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-link'));
+        });
+    }
+
+    /* ------------------------------------------
+       2. SCROLL REVEAL ANIMATIONS
+       ------------------------------------------ */
+    function initScrollReveal() {
+        const reveals = document.querySelectorAll('[data-reveal]');
+        if (!reveals.length) return;
+
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        reveals.forEach((el, i) => {
+            el.style.transitionDelay = (i % 4) * 0.1 + 's';
+            io.observe(el);
+        });
+    }
+
+    /* ------------------------------------------
+       3. 3D TILT EFFECT
+       ------------------------------------------ */
+    function initTiltEffect() {
+        const cards = document.querySelectorAll('[data-tilt]');
+        if (!cards.length) return;
+
+        // Skip on touch devices
+        if ('ontouchstart' in window) return;
+
+        cards.forEach(card => {
+            let rafId = null;
+
+            card.addEventListener('mousemove', (e) => {
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -6;
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    card.style.transform =
+                        `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+                    // Radial glow follow
+                    const px = ((x / rect.width) * 100).toFixed(1);
+                    const py = ((y / rect.height) * 100).toFixed(1);
+                    card.style.setProperty('--mouse-x', px + '%');
+                    card.style.setProperty('--mouse-y', py + '%');
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+            });
+        });
+
+        // Also apply glow tracking to bento cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', ((x / rect.width) * 100) + '%');
+                card.style.setProperty('--mouse-y', ((y / rect.height) * 100) + '%');
+            });
+        });
+    }
+
+    /* ------------------------------------------
+       4. PROJECT FILTERS
+       ------------------------------------------ */
+    function initProjectFilters() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        if (!filterBtns.length || !projectCards.length) return;
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Active state
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const categories = card.getAttribute('data-category') || '';
+                    const match = filter === 'all' || categories.includes(filter);
+
+                    if (match) {
+                        card.classList.remove('filter-hide');
+                        card.classList.add('filter-show');
+                        card.style.position = '';
+                        card.style.visibility = '';
+                    } else {
+                        card.classList.remove('filter-show');
+                        card.classList.add('filter-hide');
+                    }
+                });
+            });
+        });
+    }
+
+    /* ------------------------------------------
+       5. PROJECT MODAL
+       ------------------------------------------ */
+    const projectData = {
+        elektraweb: {
+            badge: 'API Entegrasyon',
+            title: 'ElektraWeb API Entegrasyonu',
+            desc: 'ElektraWeb, otel yönetim sistemleri için geliştirilmiş REST tabanlı bir API servisidir. Bu projede kullanıcı oturum açma, rezervasyon sorgulama ve reCAPTCHA doğrulama işlemleri için API entegrasyonu yapıldı.',
+            challenge: 'Farklı otel PMS sistemleriyle uyumlu, güvenli ve ölçeklenebilir bir API katmanı oluşturmak. reCAPTCHA doğrulama akışını sunucu tarafında yönetmek ve JWT tabanlı oturum yönetimini hatasız entegre etmek.',
+            solution: 'REST mimarisinde modüler endpoint yapısı tasarlandı. JWT ile güvenli token yönetimi sağlandı. Google reCAPTCHA sunucu tarafı doğrulaması entegre edildi ve Postman/Insomnia ile kapsamlı API testleri gerçekleştirildi.',
+            tech: ['REST API', 'JWT Authentication', 'Google reCAPTCHA', 'JSON Parsing', 'Postman'],
+            link: 'https://miraclbs.github.io/elektra-web'
+        },
+        portfolio: {
+            badge: 'Frontend',
+            title: 'Kişisel Portfolio Web Sitesi',
+            desc: 'Modern teknolojiler ve tasarım trendleri ile oluşturulmuş kişisel portfolyo sitesi. Dark-theme odaklı, yüksek etkileşimli ve performans optimizeli.',
+            challenge: 'Herhangi bir framework kullanmadan, saf HTML/CSS/JS ile premium seviyede bir deneyim oluşturmak. 60 FPS animasyonlar ve erişilebilirlik standartlarını aynı anda sağlamak.',
+            solution: 'CSS Custom Properties ile modüler tasarım sistemi kuruldu. IntersectionObserver API ile performanslı scroll animasyonları, requestAnimationFrame ile akıcı cursor ve tilt efektleri geliştirildi.',
+            tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'CSS Grid'],
+            link: 'https://miraclbs.github.io'
+        },
+        rentacar: {
+            badge: 'Full-stack',
+            title: 'Rent-a-Car Admin Panel',
+            desc: 'Araç kiralama işletmeleri için geliştirilmiş kapsamlı yönetim paneli. Müşteri, araç envanteri ve kiralama süreçlerinin dijital takibi.',
+            challenge: 'Gerçek zamanlı araç müsaitlik kontrolü, çakışan kiralama tarihlerinin yönetimi ve çoklu kullanıcı rollerine göre erişim kontrolü.',
+            solution: 'React tabanlı modern UI ile kullanıcı dostu arayüz tasarlandı. Node.js backend ile RESTful API geliştirildi. DatePicker, canlı saat ve düzenlenebilir fiyat modülleri entegre edildi.',
+            tech: ['React', 'Node.js', 'PostgreSQL', 'REST API', 'JWT', 'SWR'],
+            link: null
+        },
+        tradingbot: {
+            badge: 'Backend / Data',
+            title: 'RSI Strateji Analiz Motoru',
+            desc: 'Tarihsel piyasa verileri üzerinde RSI göstergelerine dayalı ticaret stratejileri geliştirme ve performans analizi platformu.',
+            challenge: 'Büyük hacimli tarihsel veriyi hızlı işlemek, farklı zaman dilimlerinde (1 ay — 2 yıl) strateji performansını karşılaştırmak ve %55.5 üzerinde kazanç oranı hedeflemek.',
+            solution: 'Python ile veri analiz pipeline kuruldu. 5-dakikalık ve saatlik RSI crossover stratejileri test edildi. Zaman dilimi bazlı performans raporu ve gün içi saat analizleri otomatik olarak üretildi.',
+            tech: ['Python', 'Pandas', 'Data Analysis', 'RSI Indicator', 'Backtesting'],
+            link: null
+        }
+    };
+
+    function initProjectModal() {
+        const modal = document.getElementById('project-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.getElementById('modal-close');
+        if (!modal || !modalContent) return;
+
+        // Open modal
+        document.querySelectorAll('[data-modal]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const key = btn.getAttribute('data-modal');
+                const data = projectData[key];
+                if (!data) return;
+
+                modalContent.innerHTML = buildModalHTML(data);
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close handlers
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+    }
+
+    function buildModalHTML(data) {
+        let html = `
+            <span class="modal-badge">${data.badge}</span>
+            <h2 class="modal-title">${data.title}</h2>
+            <p class="modal-desc">${data.desc}</p>
+            <div class="modal-section">
+                <h3 class="modal-section-title">🎯 Zorluk (Challenge)</h3>
+                <p>${data.challenge}</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">💡 Çözüm (Solution)</h3>
+                <p>${data.solution}</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">🛠 Kullanılan Teknolojiler</h3>
+                <div class="modal-tech-list">
+                    ${data.tech.map(t => `<span class="modal-tech-tag">${t}</span>`).join('')}
+                </div>
+            </div>`;
+
+        if (data.link) {
+            html += `
+            <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="modal-link">
+                <i class="fas fa-external-link-alt"></i>
+                Projeyi Görüntüle
+            </a>`;
+        }
+        return html;
+    }
+
+    /* ------------------------------------------
+       6. NAVIGATION
+       ------------------------------------------ */
+    function initNavigation() {
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Hamburger toggle
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Close menu on link click
             navLinks.forEach(link => {
-                link.classList.remove('active');
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
             });
-
-            // Add active class to current section's nav link
-            const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
         }
-    });
-}, observerOptions);
 
-sections.forEach(section => {
-    observer.observe(section);
-});
-
-// Animated Counter for Skills (if you want to add this feature later)
-function animateCounters() {
-    const counters = document.querySelectorAll('.counter');
-    counters.forEach(counter => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const current = parseInt(counter.innerText);
-        const increment = target / 100;
-
-        if (current < target) {
-            counter.innerText = Math.ceil(current + increment);
-            setTimeout(animateCounters, 20);
-        } else {
-            counter.innerText = target;
-        }
-    });
-}
-
-// Intersection Observer for Animations
-const animateElements = document.querySelectorAll('.animate-on-scroll');
-
-const animationObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-});
-
-// Apply animation classes to elements that should animate
-document.addEventListener('DOMContentLoaded', () => {
-    // Add animation classes to various elements
-    const elementsToAnimate = [
-        '.hero-content',
-        '.project-card',
-        '.contact-item',
-        '.skill-category'
-    ];
-
-    elementsToAnimate.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach((element, index) => {
-            element.classList.add('animate-on-scroll');
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-            animationObserver.observe(element);
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 72,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
-    });
-});
 
-// Typing Animation for Hero Section
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
+        // Navbar scroll effect
+        if (navbar) {
+            window.addEventListener('scroll', throttle(() => {
+                navbar.classList.toggle('scrolled', window.scrollY > 60);
+            }, 100));
         }
-    }
 
-    type();
-}
+        // Active link tracking
+        const sections = document.querySelectorAll('section[id]');
+        const linkObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+                    if (active) active.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3, rootMargin: '-72px 0px -50% 0px' });
 
-// Initialize typing animation when page loads
-window.addEventListener('load', () => {
-    const heroRole = document.querySelector('.hero-role');
-    if (heroRole) {
-        const originalText = heroRole.textContent;
-        typeWriter(heroRole, originalText, 150);
-    }
-});
+        sections.forEach(s => linkObserver.observe(s));
 
-// Parallax Effect for Hero Section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const heroVisual = document.querySelector('.hero-visual');
-
-    if (heroVisual) {
-        const rate = scrolled * -0.5;
-        heroVisual.style.transform = `translateY(${rate}px)`;
-    }
-});
-
-// Dynamic Year for Footer
-document.addEventListener('DOMContentLoaded', () => {
-    const currentYear = new Date().getFullYear();
-    const yearElement = document.querySelector('.footer-content p');
-    if (yearElement) {
-        yearElement.innerHTML = yearElement.innerHTML.replace('2025', currentYear);
-    }
-});
-
-// Smooth hover effects for project cards
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mouseenter', function () {
-        this.style.transform = 'translateY(-10px) scale(1.02)';
-    });
-
-    card.addEventListener('mouseleave', function () {
-        this.style.transform = 'translateY(0) scale(1)';
-    });
-});
-
-// Contact form submission (if you add a form later)
-function handleContactForm(event) {
-    event.preventDefault();
-    // Add your contact form handling logic here
-    alert('Mesajınız gönderildi! En kısa sürede dönüş yapacağım.');
-}
-
-// Keyboard navigation improvements
-document.addEventListener('keydown', (e) => {
-    // ESC key closes mobile menu
-    if (e.key === 'Escape') {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-    }
-});
-
-// Performance optimization: Throttle scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function () {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
-// Apply throttling to scroll events
-const throttledScrollHandler = throttle(() => {
-    // Navbar background change
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(15, 23, 42, 0.98)';
-        navbar.style.borderBottom = '1px solid rgba(148, 163, 184, 0.2)';
-    } else {
-        navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-        navbar.style.borderBottom = '1px solid rgba(148, 163, 184, 0.1)';
-    }
-
-    // Parallax effect
-    const scrolled = window.pageYOffset;
-    const heroVisual = document.querySelector('.hero-visual');
-    if (heroVisual) {
-        const rate = scrolled * -0.5;
-        heroVisual.style.transform = `translateY(${rate}px)`;
-    }
-}, 16); // ~60fps
-
-window.addEventListener('scroll', throttledScrollHandler);
-
-// Add loading animation
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-
-    // Trigger initial animations
-    setTimeout(() => {
-        document.querySelectorAll('.animate-on-scroll').forEach(element => {
-            if (element.getBoundingClientRect().top < window.innerHeight) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
+        // ESC closes mobile menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && hamburger && navMenu) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         });
-    }, 100);
-});
+    }
+
+    /* ------------------------------------------
+       7. TERMINAL ANIMATION
+       ------------------------------------------ */
+    function initTerminalAnimation() {
+        const commandEl = document.getElementById('terminal-text');
+        const outputEl = document.getElementById('terminal-output');
+        if (!commandEl || !outputEl) return;
+
+        const commands = [
+            {
+                cmd: 'cat developer.json',
+                output: [
+                    '{',
+                    '  <span class="output-key">"ad"</span>: <span class="output-string">"Atıf Miraç İlbaş"</span>,',
+                    '  <span class="output-key">"rol"</span>: <span class="output-string">"Full-stack Geliştirici"</span>,',
+                    '  <span class="output-key">"konum"</span>: <span class="output-string">"Türkiye"</span>,',
+                    '  <span class="output-key">"stack"</span>: [<span class="output-string">".NET"</span>, <span class="output-string">"Node.js"</span>, <span class="output-string">"React"</span>],',
+                    '  <span class="output-key">"durum"</span>: <span class="output-string">"Projelere açık ✓"</span>',
+                    '}'
+                ]
+            },
+            {
+                cmd: 'git log --oneline -3',
+                output: [
+                    '<span class="output-value">a1b2c3d</span> feat: portfolio redesign ✨',
+                    '<span class="output-value">e4f5g6h</span> fix: API security layer',
+                    '<span class="output-value">i7j8k9l</span> refactor: clean architecture'
+                ]
+            },
+            {
+                cmd: 'npm run build',
+                output: [
+                    '<span class="output-value">✓</span> Compiled successfully in <span class="output-string">1.2s</span>',
+                    '<span class="output-value">✓</span> Bundle size: <span class="output-string">42kb</span> gzipped',
+                    '<span class="output-value">✓</span> Ready for deployment 🚀'
+                ]
+            }
+        ];
+
+        let cmdIndex = 0;
+
+        function typeCommand(text, callback) {
+            let i = 0;
+            commandEl.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    commandEl.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, 60 + Math.random() * 40);
+                } else {
+                    setTimeout(callback, 400);
+                }
+            }
+            type();
+        }
+
+        function showOutput(lines, callback) {
+            outputEl.innerHTML = '';
+            let i = 0;
+            function addLine() {
+                if (i < lines.length) {
+                    const div = document.createElement('div');
+                    div.className = 'output-line';
+                    div.innerHTML = lines[i];
+                    outputEl.appendChild(div);
+                    i++;
+                    setTimeout(addLine, 120);
+                } else {
+                    setTimeout(callback, 2500);
+                }
+            }
+            addLine();
+        }
+
+        function runCycle() {
+            const current = commands[cmdIndex % commands.length];
+            typeCommand(current.cmd, () => {
+                showOutput(current.output, () => {
+                    cmdIndex++;
+                    runCycle();
+                });
+            });
+        }
+
+        // Start after a short delay
+        setTimeout(runCycle, 800);
+    }
+
+    /* ------------------------------------------
+       8. FOOTER YEAR
+       ------------------------------------------ */
+    function initFooterYear() {
+        const yearEl = document.getElementById('footer-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    }
+
+    /* ------------------------------------------
+       INIT ALL
+       ------------------------------------------ */
+    document.addEventListener('DOMContentLoaded', () => {
+        initCustomCursor();
+        initScrollReveal();
+        initTiltEffect();
+        initProjectFilters();
+        initProjectModal();
+        initNavigation();
+        initTerminalAnimation();
+        initFooterYear();
+    });
+
+})();

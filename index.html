@@ -4,26 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atıf Miraç İlbaş - Yazılım Geliştirici</title>
+    <title>Atıf Miraç İlbaş — Yazılım Mimarı & Full-stack Geliştirici</title>
     <meta name="description"
-        content="Web teknolojileri, API entegrasyonları ve sistem mimarisi alanında çalışan yazılım geliştirici">
+        content="Atıf Miraç İlbaş — Web teknolojileri, API entegrasyonları ve sistem mimarisi alanında uzmanlaşmış full-stack geliştirici. .NET, Node.js, React, Vue ile kurumsal çözümler.">
+    <meta name="keywords" content="yazılım geliştirici, full-stack, API, .NET, Node.js, React, Vue, portfolio">
+    <meta name="author" content="Atıf Miraç İlbaş">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Atıf Miraç İlbaş — Yazılım Mimarı & Full-stack Geliştirici">
+    <meta property="og:description"
+        content="Web teknolojileri, API entegrasyonları ve sistem mimarisi alanında uzmanlaşmış full-stack geliştirici.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://miraclbs.github.io">
+    <meta property="og:locale" content="tr_TR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Atıf Miraç İlbaş — Yazılım Mimarı">
+    <meta name="twitter:description"
+        content="Web teknolojileri, API entegrasyonları ve sistem mimarisi alanında full-stack geliştirici.">
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Atıf Miraç İlbaş",
+        "url": "https://miraclbs.github.io",
+        "jobTitle": "Yazılım Mimarı & Full-stack Geliştirici",
+        "sameAs": [
+            "https://github.com/miraclbs",
+            "https://www.linkedin.com/in/at%C4%B1f-mira%C3%A7-ilba%C5%9F-aa3abb194/"
+        ],
+        "knowsAbout": [".NET", "Node.js", "React", "Vue", "PHP", "MySQL", "PostgreSQL", "Docker", "REST API"]
+    }
+    </script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Custom Cursor -->
+    <div id="cursor" aria-hidden="true"></div>
+    <div id="cursor-follower" aria-hidden="true">
+        <span id="cursor-text">GÖR</span>
+    </div>
+
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text">Mİ|Mİ</span>
-            </div>
-            <ul class="nav-menu">
+            <a href="#home" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">Mİ</span>
+                <span class="logo-slash">/</span>
+                <span class="logo-bracket">&gt;</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
                 <li class="nav-item">
-                    <a href="#home" class="nav-link">Ana Sayfa</a>
+                    <a href="#home" class="nav-link active">Ana Sayfa</a>
                 </li>
                 <li class="nav-item">
                     <a href="#about" class="nav-link">Hakkımda</a>
@@ -35,7 +79,7 @@
                     <a href="#contact" class="nav-link">İletişim</a>
                 </li>
             </ul>
-            <div class="hamburger">
+            <div class="hamburger" id="hamburger" aria-label="Menüyü aç/kapat">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -45,14 +89,26 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-bg-orbs" aria-hidden="true">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="hero-grid-bg" aria-hidden="true"></div>
         <div class="hero-container">
-            <div class="hero-content">
+            <div class="hero-content" data-reveal="left">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Yeni projelere açık
+                </div>
                 <h1 class="hero-title">
+                    <span class="hero-greeting">Merhaba, ben</span>
                     <span class="hero-name">Atıf Miraç İlbaş</span>
-                    <span class="hero-role">Yazılım Geliştirici</span>
+                    <span class="hero-role" id="hero-role">Yazılım Mimarı & Full-stack Geliştirici</span>
                 </h1>
                 <p class="hero-description">
                     Web teknolojileri, API entegrasyonları ve sistem mimarisi alanında çalışan bir geliştiriciyim.
+                    Güvenli, ölçeklenebilir ve performanslı çözümler üretiyorum.
                 </p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">
@@ -60,35 +116,46 @@
                         Projelerimi Gör
                     </a>
                     <a href="#contact" class="btn btn-secondary">
-                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-paper-plane"></i>
                         İletişime Geç
                     </a>
                 </div>
                 <div class="hero-social">
-                    <a href="https://github.com/miraclbs" target="_blank" class="social-link">
+                    <a href="https://github.com/miraclbs" target="_blank" rel="noopener noreferrer"
+                        class="social-link" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="https://www.linkedin.com/in/atıf-miraç-ilbaş-aa3abb194/" target="_blank"
-                        class="social-link">
+                        rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="mailto:atifmiracilbas@gmail.com" class="social-link">
+                    <a href="mailto:atifmiracilbas@gmail.com" class="social-link" aria-label="E-posta">
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
             </div>
-            <div class="hero-visual">
-                <div class="code-animation">
-                    <div class="code-line"></div>
-                    <div class="code-line"></div>
-                    <div class="code-line"></div>
-                    <div class="code-line"></div>
+            <div class="hero-visual" data-reveal="right">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">miraclbs@dev ~</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command" id="terminal-text"></span>
+                            <span class="terminal-cursor">|</span>
+                        </div>
+                        <div class="terminal-output" id="terminal-output"></div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="hero-scroll">
-            <a href="#about" class="scroll-down">
-                <i class="fas fa-chevron-down"></i>
+            <a href="#about" class="scroll-indicator" aria-label="Aşağı kaydır">
+                <span class="scroll-line"></span>
             </a>
         </div>
     </section>
@@ -96,69 +163,75 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Hakkımda</h2>
-                <div class="section-line"></div>
+            <div class="section-header" data-reveal="up">
+                <span class="section-label">01 — Hakkımda</span>
+                <h2 class="section-title">Kendimi Tanıtayım</h2>
             </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <p class="about-description">
-                        Ben Atıf Miraç İlbaş, yazılım geliştirme alanında aktif olarak çalışan bir geliştiriciyim.
-                        Full-stack projeler ve sistem mimarileriyle ilgileniyorum.
-                        Özellikle API geliştirme, entegrasyon, backend tasarımı ve veri güvenliği konularına
-                        odaklanıyorum.
-                    </p>
+            <div class="about-intro" data-reveal="up">
+                <p class="about-description">
+                    Ben Atıf Miraç İlbaş, yazılım geliştirme alanında aktif olarak çalışan bir geliştiriciyim.
+                    Full-stack projeler ve sistem mimarileriyle ilgileniyorum. Özellikle API geliştirme,
+                    entegrasyon, backend tasarımı ve veri güvenliği konularına odaklanıyorum.
+                </p>
+            </div>
 
-                    <div class="skills-section">
-                        <h3 class="skills-title">Kullandığım Teknolojiler</h3>
-
-                        <div class="skill-category">
-                            <h4 class="category-title">
-                                <i class="fas fa-server"></i>
-                                Backend
-                            </h4>
-                            <div class="skills-list">
-                                <span class="skill-tag">.NET</span>
-                                <span class="skill-tag">Node.js</span>
-                                <span class="skill-tag">PHP</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category">
-                            <h4 class="category-title">
-                                <i class="fas fa-laptop-code"></i>
-                                Frontend
-                            </h4>
-                            <div class="skills-list">
-                                <span class="skill-tag">React</span>
-                                <span class="skill-tag">Vue</span>
-                                <span class="skill-tag">HTML/CSS</span>
-                                <span class="skill-tag">Tailwind</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category">
-                            <h4 class="category-title">
-                                <i class="fas fa-database"></i>
-                                Veritabanı
-                            </h4>
-                            <div class="skills-list">
-                                <span class="skill-tag">MySQL</span>
-                                <span class="skill-tag">PostgreSQL</span>
-                            </div>
-                        </div>
-
-                        <div class="skill-category">
-                            <h4 class="category-title">
-                                <i class="fas fa-tools"></i>
-                                Araçlar
-                            </h4>
-                            <div class="skills-list">
-                                <span class="skill-tag">Git</span>
-                                <span class="skill-tag">Postman</span>
-                                <span class="skill-tag">Docker</span>
-                            </div>
-                        </div>
+            <!-- Skills Bento Grid -->
+            <div class="bento-grid skills-bento">
+                <div class="bento-card bento-lg" data-reveal="left">
+                    <div class="bento-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3 class="bento-title">Backend</h3>
+                    <p class="bento-desc">Güçlü ve güvenli sunucu tarafı mimarileri tasarlıyorum.</p>
+                    <div class="bento-tags">
+                        <span class="bento-tag">.NET</span>
+                        <span class="bento-tag">Node.js</span>
+                        <span class="bento-tag">PHP</span>
+                    </div>
+                </div>
+                <div class="bento-card bento-sm" data-reveal="up">
+                    <div class="bento-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="bento-title">Frontend</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">React</span>
+                        <span class="bento-tag">Vue</span>
+                        <span class="bento-tag">HTML/CSS</span>
+                        <span class="bento-tag">Tailwind</span>
+                    </div>
+                </div>
+                <div class="bento-card bento-sm" data-reveal="up">
+                    <div class="bento-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="bento-title">Veritabanı</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">MySQL</span>
+                        <span class="bento-tag">PostgreSQL</span>
+                    </div>
+                </div>
+                <div class="bento-card bento-md" data-reveal="right">
+                    <div class="bento-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3 class="bento-title">API & Entegrasyon</h3>
+                    <p class="bento-desc">RESTful servisler, JWT, OAuth, webhook ve üçüncü taraf entegrasyonları.</p>
+                    <div class="bento-tags">
+                        <span class="bento-tag">REST API</span>
+                        <span class="bento-tag">JWT</span>
+                        <span class="bento-tag">Postman</span>
+                    </div>
+                </div>
+                <div class="bento-card bento-sm" data-reveal="scale">
+                    <div class="bento-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="bento-title">DevOps & Araçlar</h3>
+                    <div class="bento-tags">
+                        <span class="bento-tag">Git</span>
+                        <span class="bento-tag">Docker</span>
+                        <span class="bento-tag">Linux</span>
                     </div>
                 </div>
             </div>
@@ -168,106 +241,171 @@
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-rocket"></i>
-                    Projeler
-                </h2>
-                <div class="section-line"></div>
+            <div class="section-header" data-reveal="up">
+                <span class="section-label">02 — Projeler</span>
+                <h2 class="section-title">Neler Yaptım?</h2>
             </div>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-puzzle-piece"></i>
-                        </div>
+
+            <!-- Filter Buttons -->
+            <div class="filter-bar" data-reveal="up">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> Tümü
+                </button>
+                <button class="filter-btn" data-filter="backend">
+                    <i class="fas fa-server"></i> Backend
+                </button>
+                <button class="filter-btn" data-filter="frontend">
+                    <i class="fas fa-laptop-code"></i> Frontend
+                </button>
+                <button class="filter-btn" data-filter="api">
+                    <i class="fas fa-plug"></i> API
+                </button>
+            </div>
+
+            <!-- Projects Bento Grid -->
+            <div class="projects-bento" id="projects-grid">
+
+                <!-- Project 1 — ElektraWeb -->
+                <div class="project-card bento-project-lg" data-category="api backend" data-reveal="left"
+                    data-tilt data-project="elektraweb">
+                    <div class="project-card-inner">
+                        <div class="project-number">01</div>
+                        <div class="project-category-badge">API Entegrasyon</div>
                         <h3 class="project-title">ElektraWeb API Entegrasyonu</h3>
-                    </div>
-                    <div class="project-content">
                         <p class="project-description">
-                            ElektraWeb, otel yönetim sistemleri için geliştirilmiş REST tabanlı bir API servisidir.
-                            Bu projede kullanıcı oturum açma, rezervasyon sorgulama ve reCAPTCHA doğrulama işlemleri
-                            için API entegrasyonu yapıldı.
+                            Otel yönetim sistemleri için geliştirilmiş REST tabanlı API servisi. Kullanıcı oturum
+                            açma, rezervasyon sorgulama ve reCAPTCHA doğrulama entegrasyonu.
                         </p>
-
                         <div class="project-tech">
-                            <span class="tech-tag">REST API</span>
-                            <span class="tech-tag">JWT Authentication</span>
-                            <span class="tech-tag">Google reCAPTCHA</span>
-                            <span class="tech-tag">JSON Parsing</span>
-                            <span class="tech-tag">Postman / Insomnia</span>
+                            <span class="tech-icon" title="REST API"><i class="fas fa-exchange-alt"></i></span>
+                            <span class="tech-icon" title="JWT"><i class="fas fa-key"></i></span>
+                            <span class="tech-icon" title="reCAPTCHA"><i class="fas fa-shield-alt"></i></span>
+                            <span class="tech-icon" title="JSON"><i class="fas fa-code"></i></span>
                         </div>
-
-                        <div class="project-objective">
-                            <h4>Proje Amacı:</h4>
-                            <p>API'yi dış sistemlerle güvenli ve ölçeklenebilir biçimde entegre etmek, otel yazılımına
-                                üçüncü taraf uygulamaların bağlanabilmesini sağlamak.</p>
-                        </div>
+                        <button class="project-detail-btn" data-modal="elektraweb">
+                            Detayları İncele <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <div class="project-footer">
-                        <a href="https://miraclbs.github.io/elektra-web" target="_blank" class="project-link">
-                            <i class="fas fa-external-link-alt"></i>
-                            Projeyi Görüntüle
-                        </a>
+                    <a href="https://miraclbs.github.io/elektra-web" target="_blank" rel="noopener noreferrer"
+                        class="project-external" aria-label="Projeyi yeni sekmede aç">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <!-- Project 2 — Portfolio Website -->
+                <div class="project-card bento-project-sm" data-category="frontend" data-reveal="up"
+                    data-tilt data-project="portfolio">
+                    <div class="project-card-inner">
+                        <div class="project-number">02</div>
+                        <div class="project-category-badge">Frontend</div>
+                        <h3 class="project-title">Kişisel Portfolio</h3>
+                        <p class="project-description">
+                            Modern, dark-theme odaklı kişisel portfolyo sitesi. Glassmorphism, Bento Grid ve
+                            mikro-etkileşimler.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-icon" title="HTML5"><i class="fab fa-html5"></i></span>
+                            <span class="tech-icon" title="CSS3"><i class="fab fa-css3-alt"></i></span>
+                            <span class="tech-icon" title="JavaScript"><i class="fab fa-js-square"></i></span>
+                        </div>
+                        <button class="project-detail-btn" data-modal="portfolio">
+                            Detayları İncele <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 3 — Rent-a-Car -->
+                <div class="project-card bento-project-sm" data-category="frontend backend" data-reveal="up"
+                    data-tilt data-project="rentacar">
+                    <div class="project-card-inner">
+                        <div class="project-number">03</div>
+                        <div class="project-category-badge">Full-stack</div>
+                        <h3 class="project-title">Rent-a-Car Admin Panel</h3>
+                        <p class="project-description">
+                            Araç kiralama yönetim sistemi. Müşteri, araç ve kiralama takibi ile modern admin paneli.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-icon" title="React"><i class="fab fa-react"></i></span>
+                            <span class="tech-icon" title="Node.js"><i class="fab fa-node-js"></i></span>
+                            <span class="tech-icon" title="Database"><i class="fas fa-database"></i></span>
+                        </div>
+                        <button class="project-detail-btn" data-modal="rentacar">
+                            Detayları İncele <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 4 — Trading Bot -->
+                <div class="project-card bento-project-md" data-category="backend api" data-reveal="right"
+                    data-tilt data-project="tradingbot">
+                    <div class="project-card-inner">
+                        <div class="project-number">04</div>
+                        <div class="project-category-badge">Backend / Data</div>
+                        <h3 class="project-title">RSI Strateji Analiz Motoru</h3>
+                        <p class="project-description">
+                            Tarihsel veri analizi ile RSI göstergelerine dayalı ticaret stratejisi geliştirme
+                            platformu. Farklı zaman dilimlerinde performans analizi.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-icon" title="Python"><i class="fab fa-python"></i></span>
+                            <span class="tech-icon" title="API"><i class="fas fa-chart-line"></i></span>
+                            <span class="tech-icon" title="Data"><i class="fas fa-database"></i></span>
+                        </div>
+                        <button class="project-detail-btn" data-modal="tradingbot">
+                            Detayları İncele <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-container">
+            <button class="modal-close" id="modal-close" aria-label="Modalı kapat">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-content" id="modal-content">
+                <!-- Dynamically filled -->
+            </div>
+        </div>
+    </div>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-envelope"></i>
-                    İletişim
-                </h2>
-                <div class="section-line"></div>
+            <div class="section-header" data-reveal="up">
+                <span class="section-label">03 — İletişim</span>
+                <h2 class="section-title">Birlikte Çalışalım</h2>
             </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>E-posta</h3>
-                            <a href="mailto:atifmiracilbas@gmail.com">atifmiracilbas@gmail.com</a>
-                        </div>
+            <p class="contact-intro" data-reveal="up">
+                Yeni projeler, iş birlikleri veya sadece merhaba demek için bana ulaşabilirsiniz.
+            </p>
+            <div class="contact-grid">
+                <a href="mailto:atifmiracilbas@gmail.com" class="contact-card" data-reveal="left" data-tilt>
+                    <div class="contact-card-icon">
+                        <i class="fas fa-envelope"></i>
                     </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>GitHub</h3>
-                            <a href="https://github.com/miraclbs" target="_blank">github.com/miraclbs</a>
-                        </div>
+                    <h3>E-posta</h3>
+                    <span>atifmiracilbas@gmail.com</span>
+                </a>
+                <a href="https://github.com/miraclbs" target="_blank" rel="noopener noreferrer" class="contact-card"
+                    data-reveal="up" data-tilt>
+                    <div class="contact-card-icon">
+                        <i class="fab fa-github"></i>
                     </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fab fa-linkedin"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>LinkedIn</h3>
-                            <a href="https://www.linkedin.com/in/atıf-miraç-ilbaş-aa3abb194/" target="_blank">LinkedIn
-                                Profilim</a>
-                        </div>
+                    <h3>GitHub</h3>
+                    <span>github.com/miraclbs</span>
+                </a>
+                <a href="https://www.linkedin.com/in/atıf-miraç-ilbaş-aa3abb194/" target="_blank"
+                    rel="noopener noreferrer" class="contact-card" data-reveal="right" data-tilt>
+                    <div class="contact-card-icon">
+                        <i class="fab fa-linkedin"></i>
                     </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h3>Website</h3>
-                            <a href="https://miraclbs.github.io" target="_blank">miraclbs.github.io</a>
-                        </div>
-                    </div>
-                </div>
+                    <h3>LinkedIn</h3>
+                    <span>LinkedIn Profilim</span>
+                </a>
             </div>
         </div>
     </section>
@@ -276,16 +414,25 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>&copy; 2025 Atıf Miraç İlbaş. Tüm hakları saklıdır.</p>
+                <div class="footer-left">
+                    <a href="#home" class="footer-logo">
+                        <span class="logo-bracket">&lt;</span>
+                        <span class="logo-text">Mİ</span>
+                        <span class="logo-slash">/</span>
+                        <span class="logo-bracket">&gt;</span>
+                    </a>
+                    <p class="footer-copy">&copy; <span id="footer-year">2025</span> Atıf Miraç İlbaş</p>
+                </div>
                 <div class="footer-social">
-                    <a href="https://github.com/miraclbs" target="_blank" class="footer-social-link">
+                    <a href="https://github.com/miraclbs" target="_blank" rel="noopener noreferrer"
+                        class="footer-social-link" aria-label="GitHub">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="https://www.linkedin.com/in/atıf-miraç-ilbaş-aa3abb194/" target="_blank"
-                        class="footer-social-link">
+                        rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="mailto:mrclbs97@gmail.com" class="footer-social-link">
+                    <a href="mailto:atifmiracilbas@gmail.com" class="footer-social-link" aria-label="E-posta">
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
