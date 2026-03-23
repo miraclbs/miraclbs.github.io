@@ -49,10 +49,18 @@
         }
         animateFollower();
 
-        // Hover states for project cards (show "GÖR")
+        // Hover states for project cards (show custom text or "GÖR")
+        const cursorText = document.getElementById('cursor-text');
         document.querySelectorAll('[data-tilt]').forEach(card => {
-            card.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-            card.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+            card.addEventListener('mouseenter', () => {
+                const customText = card.getAttribute('data-cursor-text');
+                if (cursorText) cursorText.textContent = customText || 'GÖR';
+                document.body.classList.add('cursor-hover');
+            });
+            card.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+                if (cursorText) cursorText.textContent = 'GÖR';
+            });
         });
 
         // Hover states for links and buttons
@@ -338,13 +346,11 @@
             {
                 cmd: 'cat developer.json',
                 output: [
-                    '{',
-                    '  <span class="output-key">"ad"</span>: <span class="output-string">"Atıf Miraç İlbaş"</span>,',
+                    '{ <span class="output-key">"ad"</span>: <span class="output-string">"Atıf Miraç İlbaş"</span>,',
                     '  <span class="output-key">"rol"</span>: <span class="output-string">"Yazılım Mühendisi"</span>,',
                     '  <span class="output-key">"konum"</span>: <span class="output-string">"Ankara, TR"</span>,',
                     '  <span class="output-key">"stack"</span>: [<span class="output-string">"React"</span>, <span class="output-string">"Next.js"</span>, <span class="output-string">".NET"</span>],',
-                    '  <span class="output-key">"ai"</span>: <span class="output-string">"Prompt Engineering ✓"</span>',
-                    '}'
+                    '  <span class="output-key">"ai"</span>: <span class="output-string">"Prompt Engineering ✓"</span> }'
                 ]
             },
             {
@@ -477,6 +483,23 @@
         initTerminalAnimation();
         initFooterYear();
         initThemeToggle();
+        initEmailCopy();
     });
+
+    /* ------------------------------------------
+       10. EMAIL COPY
+       ------------------------------------------ */
+    function initEmailCopy() {
+        const emailCard = document.getElementById('email-card');
+        const toast = document.getElementById('copy-toast');
+        if (!emailCard || !toast) return;
+
+        emailCard.addEventListener('click', () => {
+            navigator.clipboard.writeText('mrclbs97@gmail.com').then(() => {
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        });
+    }
 
 })();
