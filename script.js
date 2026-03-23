@@ -109,6 +109,10 @@
         cards.forEach(card => {
             let rafId = null;
 
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none';
+            });
+
             card.addEventListener('mousemove', (e) => {
                 if (rafId) cancelAnimationFrame(rafId);
                 rafId = requestAnimationFrame(() => {
@@ -117,8 +121,8 @@
                     const y = e.clientY - rect.top;
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -6;
-                    const rotateY = ((x - centerX) / centerX) * 6;
+                    const rotateX = ((y - centerY) / centerY) * -2;
+                    const rotateY = ((x - centerX) / centerX) * 2;
 
                     card.style.transform =
                         `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
@@ -133,6 +137,7 @@
 
             card.addEventListener('mouseleave', () => {
                 if (rafId) cancelAnimationFrame(rafId);
+                card.style.transition = 'transform 0.5s ease, border-color 0.4s ease, box-shadow 0.4s ease';
                 card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1,1,1)';
             });
         });
@@ -174,11 +179,33 @@
                         card.classList.add('filter-show');
                         card.style.position = '';
                         card.style.visibility = '';
+                        card.style.transform = '';
+                        // Remove filter-show after animation so tilt works
+                        card.addEventListener('animationend', function handler() {
+                            card.classList.remove('filter-show');
+                            card.style.opacity = '1';
+                            card.removeEventListener('animationend', handler);
+                        });
                     } else {
                         card.classList.remove('filter-show');
                         card.classList.add('filter-hide');
                     }
                 });
+            });
+        });
+    }
+
+    /* ------------------------------------------
+       4b. PROJECT CARD CLICK
+       ------------------------------------------ */
+    function initProjectCardLinks() {
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', (e) => {
+                // Don't navigate if clicking the detail button or external link
+                if (e.target.closest('.project-detail-btn') || e.target.closest('.project-external')) return;
+                const link = card.querySelector('.project-external');
+                if (link) window.open(link.href, '_blank');
             });
         });
     }
@@ -195,6 +222,24 @@
             solution: 'CSS Custom Properties ile modüler tasarım sistemi kuruldu. IntersectionObserver API ile performanslı scroll animasyonları, requestAnimationFrame ile akıcı cursor ve tilt efektleri geliştirildi. AI destekli kodlama süreçleriyle hızlı iterasyon sağlandı.',
             tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'CSS Grid', 'AI Destekli Geliştirme'],
             link: 'https://miraclbs.github.io'
+        },
+        stockanalyze: {
+            badge: 'Full-Stack / AI',
+            title: 'Stock Analyze — AI Destekli Finansal Analiz',
+            desc: 'Borsada yatırım yaparken şirketlerin gerçek değerini (içsel değer) hesaplamak ve finansal verileri doğru yorumlamak hepimiz için zaman zaman karmaşık olabiliyor. Bu süreci hem kendim hem de diğer yatırımcılar için çok daha şeffaf ve anlaşılır kılmak adına yapay zeka destekli bir finansal analiz uygulaması geliştirdim.',
+            challenge: 'BIST100 ve S&P500 gibi farklı piyasaların verilerini tek bir platformda birleştirmek, Benjamin Graham\'ın değer yatırımı felsefesine uygun güvenlik marjı hesaplamalarını doğru şekilde uygulamak ve yapay zeka analizlerini anlamlı sonuçlara dönüştürmek.',
+            solution: 'React + TypeScript ile modern, tip-güvenli bir arayüz oluşturuldu. Supabase ile güvenilir veri yönetimi sağlandı. OpenAI API entegrasyonu ile hisse senetlerinin temel analizleri saniyeler içinde yapılabiliyor. Güvenlik Marjı (Margin of Safety) hesaplaması ile risksiz alım aralıkları kolayca görülebiliyor.',
+            tech: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'OpenAI API'],
+            link: 'https://stock-analyze-dotcom.vercel.app/'
+        },
+        cardgame: {
+            badge: 'AI / Frontend',
+            title: 'Card Game — AI Destekli Hikaye Oyunu',
+            desc: 'Sabit senaryoların aksine, oyuncunun seçimleriyle ve kendi yazdığı metinlerle gidişatını belirlediği, her oynayışta tamamen eşsiz bir deneyim sunan yapay zeka destekli interaktif bir hikaye/kart oyunu.',
+            challenge: 'Farklı evrenler (bilim kurgu, fantastik dünya) için dinamik hikaye üretimi, serbest metin girişi ile hikaye yönlendirme, 3D kart animasyonları ve sahneye özel ses/müzik geçişleriyle sürükleyici bir atmosfer oluşturmak.',
+            solution: 'OpenAI API ile dinamik hikaye ve prompt yönetimi kurgulandı. React + Vite ile hızlı ve akıcı bir arayüz oluşturuldu. Firebase ile kullanıcı verisi yönetimi sağlandı. 3D Tilt efektleri ve özel CSS animasyonlarıyla sinematik bir oyun deneyimi sunuldu. Hesap gerektirmeden doğrudan oynama imkanı eklendi.',
+            tech: ['React', 'Vite', 'CSS Animations', 'OpenAI API', 'Firebase', 'Prompt Engineering'],
+            link: 'https://cardgame-sigma.vercel.app/'
         }
     };
 
@@ -241,15 +286,15 @@
             <h2 class="modal-title">${data.title}</h2>
             <p class="modal-desc">${data.desc}</p>
             <div class="modal-section">
-                <h3 class="modal-section-title">🎯 Zorluk (Challenge)</h3>
+                <h3 class="modal-section-title">Zorluk (Challenge)</h3>
                 <p>${data.challenge}</p>
             </div>
             <div class="modal-section">
-                <h3 class="modal-section-title">💡 Çözüm (Solution)</h3>
+                <h3 class="modal-section-title">Çözüm (Solution)</h3>
                 <p>${data.solution}</p>
             </div>
             <div class="modal-section">
-                <h3 class="modal-section-title">🛠 Kullanılan Teknolojiler</h3>
+                <h3 class="modal-section-title">Kullanılan Teknolojiler</h3>
                 <div class="modal-tech-list">
                     ${data.tech.map(t => `<span class="modal-tech-tag">${t}</span>`).join('')}
                 </div>
@@ -478,6 +523,7 @@
         initScrollReveal();
         initTiltEffect();
         initProjectFilters();
+        initProjectCardLinks();
         initProjectModal();
         initNavigation();
         initTerminalAnimation();
