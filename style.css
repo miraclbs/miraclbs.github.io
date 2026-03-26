@@ -1153,7 +1153,7 @@ section {
 }
 
 .project-card[data-project="trevesto"] {
-    background-image: url('assets/bg-trevesto.png');
+    background-image: url('assets/bg-trevesto.webp');
     background-size: cover;
     background-position: center;
     border: 1.5px solid rgba(255,255,255,0.08);
@@ -1182,7 +1182,7 @@ section {
 }
 
 .project-card[data-project="stockanalyze"] {
-    background-image: url('assets/bg-stockanalyze.png');
+    background-image: url('assets/bg-stockanalyze.webp');
     border: 1.5px solid rgba(0,0,0,0.1);
     color: #111 !important;
 }
@@ -1209,7 +1209,7 @@ section {
 }
 
 .project-card[data-project="cardgame"] {
-    background-image: url('assets/bg-cardgame.png');
+    background-image: url('assets/bg-cardgame.webp');
     border: 1.5px solid rgba(255,255,255,0.08);
     color: #f0f0f0 !important;
 }
@@ -1236,7 +1236,7 @@ section {
 }
 
 .project-card[data-project="portfolio"] {
-    background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 100%), url('assets/bg-portfolio.png');
+    background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 100%), url('assets/bg-portfolio.webp');
     border: 1.5px solid rgba(255,255,255,0.08);
     color: #f0f0f0 !important;
 }
@@ -1259,12 +1259,12 @@ section {
 }
 
 [data-theme="light"] .project-card[data-project="portfolio"] {
-    background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 100%), url('assets/bg-portfolio.png');
+    background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 100%), url('assets/bg-portfolio.webp');
     border: 1.5px solid rgba(255,255,255,0.1);
 }
 
 .project-card[data-project="kulturhukuk"] {
-    background-image: url('assets/bg-kulturhukuk.png');
+    background-image: url('assets/bg-kulturhukuk.webp');
     background-size: cover;
     background-position: center;
     border: 1.5px solid rgba(255,255,255,0.08);
@@ -1293,7 +1293,7 @@ section {
 }
 
 .project-card[data-project="dizgin"] {
-    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.png');
+    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.webp');
     border: 1.5px solid rgba(255,255,255,0.08);
     color: #f0f0f0 !important;
 }
@@ -1316,7 +1316,7 @@ section {
 }
 
 [data-theme="light"] .project-card[data-project="dizgin"] {
-    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.png');
+    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.webp');
     border: 1.5px solid rgba(255,255,255,0.1);
 }
 
