@@ -1152,6 +1152,35 @@ section {
     z-index: 1;
 }
 
+.project-card[data-project="trevesto"] {
+    background-image: url('assets/bg-trevesto.png');
+    background-size: cover;
+    background-position: center;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    color: #fff !important;
+}
+
+.project-card[data-project="trevesto"] .project-number,
+.project-card[data-project="trevesto"] .project-title,
+.project-card[data-project="trevesto"] .project-description {
+    color: #fff !important;
+}
+
+.project-card[data-project="trevesto"] .project-category-badge {
+    color: #fff !important;
+}
+
+.project-card[data-project="trevesto"] .tech-icon,
+.project-card[data-project="trevesto"] .project-detail-btn,
+.project-card[data-project="trevesto"] .project-external {
+    color: #e0e0e0 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+[data-theme="light"] .project-card[data-project="trevesto"] {
+    border: 1.5px solid rgba(255,255,255,0.1);
+}
+
 .project-card[data-project="stockanalyze"] {
     background-image: url('assets/bg-stockanalyze.png');
     border: 1.5px solid rgba(0,0,0,0.1);
@@ -1231,6 +1260,63 @@ section {
 
 [data-theme="light"] .project-card[data-project="portfolio"] {
     background-image: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 100%), url('assets/bg-portfolio.png');
+    border: 1.5px solid rgba(255,255,255,0.1);
+}
+
+.project-card[data-project="kulturhukuk"] {
+    background-image: url('assets/bg-kulturhukuk.png');
+    background-size: cover;
+    background-position: center;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    color: #fff !important;
+}
+
+.project-card[data-project="kulturhukuk"] .project-number,
+.project-card[data-project="kulturhukuk"] .project-title,
+.project-card[data-project="kulturhukuk"] .project-description {
+    color: #fff !important;
+}
+
+.project-card[data-project="kulturhukuk"] .project-category-badge {
+    color: #fff !important;
+}
+
+.project-card[data-project="kulturhukuk"] .tech-icon,
+.project-card[data-project="kulturhukuk"] .project-detail-btn,
+.project-card[data-project="kulturhukuk"] .project-external {
+    color: #e0e0e0 !important;
+    border-color: rgba(255,255,255,0.2) !important;
+}
+
+[data-theme="light"] .project-card[data-project="kulturhukuk"] {
+    border: 1.5px solid rgba(255,255,255,0.1);
+}
+
+.project-card[data-project="dizgin"] {
+    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.png');
+    border: 1.5px solid rgba(255,255,255,0.08);
+    color: #f0f0f0 !important;
+}
+
+.project-card[data-project="dizgin"] .project-number,
+.project-card[data-project="dizgin"] .project-title,
+.project-card[data-project="dizgin"] .project-description {
+    color: #f0f0f0 !important;
+}
+
+.project-card[data-project="dizgin"] .project-category-badge {
+    color: #fff !important;
+}
+
+.project-card[data-project="dizgin"] .tech-icon,
+.project-card[data-project="dizgin"] .project-detail-btn,
+.project-card[data-project="dizgin"] .project-external {
+    color: #e0e0e0 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+[data-theme="light"] .project-card[data-project="dizgin"] {
+    background-image: linear-gradient(135deg, rgba(2, 6, 18, 0.72) 0%, rgba(5, 12, 30, 0.65) 100%), url('assets/bg-dizgin.png');
     border: 1.5px solid rgba(255,255,255,0.1);
 }
 

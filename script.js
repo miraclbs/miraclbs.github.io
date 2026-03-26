@@ -214,32 +214,47 @@
        5. PROJECT MODAL
        ------------------------------------------ */
     const projectData = {
-        portfolio: {
-            badge: 'Frontend',
-            title: 'Kişisel Portfolio Web Sitesi',
-            desc: 'Modern teknolojiler ve tasarım trendleri ile oluşturulmuş kişisel portfolyo sitesi. Dark-theme odaklı, yüksek etkileşimli ve performans optimizeli. Glassmorphism, Bento Grid, Custom Cursor ve 3D Tilt efektleri.',
-            challenge: 'Herhangi bir framework kullanmadan, saf HTML/CSS/JS ile premium seviyede bir deneyim oluşturmak. 60 FPS animasyonlar ve erişilebilirlik standartlarını aynı anda sağlamak.',
-            solution: 'CSS Custom Properties ile modüler tasarım sistemi kuruldu. IntersectionObserver API ile performanslı scroll animasyonları, requestAnimationFrame ile akıcı cursor ve tilt efektleri geliştirildi. AI destekli kodlama süreçleriyle hızlı iterasyon sağlandı.',
-            tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'IntersectionObserver', 'CSS Grid', 'AI Destekli Geliştirme'],
-            link: 'https://miraclbs.github.io'
+        trevesto: {
+            badge: 'Full-Stack',
+            title: 'Trevesto — The Ultimate Trading Network',
+            desc: 'Kripto, hisse senedi ve döviz piyasalarını tek çatı altında toplayan sosyal bir trading platformu. Kullanıcılar portföylerini paylaşabiliyor, birbirlerinin işlemlerini takip edebiliyor. Proje Next.js ve TypeScript ile geliştirildi. Ben özellikle "New" sayfasının tamamını sıfırdan kodladım — yeni gönderi oluşturma, etiketleme ve piyasa verisi entegrasyonu dahil. Arayüz tasarımından API bağlantılarına kadar o sayfanın her detayıyla ilgilendim.',
+            tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'REST API', 'Node.js'],
+            link: 'https://trevesto.com/'
         },
         stockanalyze: {
             badge: 'Full-Stack / AI',
             title: 'Stock Analyze — AI Destekli Finansal Analiz',
-            desc: 'Borsada yatırım yaparken şirketlerin gerçek değerini (içsel değer) hesaplamak ve finansal verileri doğru yorumlamak hepimiz için zaman zaman karmaşık olabiliyor. Bu süreci hem kendim hem de diğer yatırımcılar için çok daha şeffaf ve anlaşılır kılmak adına yapay zeka destekli bir finansal analiz uygulaması geliştirdim.',
-            challenge: 'BIST100 ve S&P500 gibi farklı piyasaların verilerini tek bir platformda birleştirmek, Benjamin Graham\'ın değer yatırımı felsefesine uygun güvenlik marjı hesaplamalarını doğru şekilde uygulamak ve yapay zeka analizlerini anlamlı sonuçlara dönüştürmek.',
-            solution: 'React + TypeScript ile modern, tip-güvenli bir arayüz oluşturuldu. Supabase ile güvenilir veri yönetimi sağlandı. OpenAI API entegrasyonu ile hisse senetlerinin temel analizleri saniyeler içinde yapılabiliyor. Güvenlik Marjı (Margin of Safety) hesaplaması ile risksiz alım aralıkları kolayca görülebiliyor.',
-            tech: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase', 'OpenAI API'],
+            desc: 'Yatırım yaparken bir hissenin gerçek değerini hesaplamak benim için hep merak konusuydu. Bu yüzden BIST100 ve S&P500 hisselerini yapay zeka ile analiz eden bir platform geliştirdim. Benjamin Graham\'ın güvenlik marjı formülünü uygulayarak "bu hisse ucuz mu, pahalı mı" sorusuna net cevap veriyor. Supabase ile veritabanı yönetimi, OpenAI ile otomatik temel analiz raporları üretiyor.',
+            tech: ['React', 'TypeScript', 'Supabase', 'OpenAI API', 'Vite'],
             link: 'https://stock-analyze-dotcom.vercel.app/'
         },
         cardgame: {
             badge: 'AI / Frontend',
             title: 'Card Game — AI Destekli Hikaye Oyunu',
-            desc: 'Sabit senaryoların aksine, oyuncunun seçimleriyle ve kendi yazdığı metinlerle gidişatını belirlediği, her oynayışta tamamen eşsiz bir deneyim sunan yapay zeka destekli interaktif bir hikaye/kart oyunu.',
-            challenge: 'Farklı evrenler (bilim kurgu, fantastik dünya) için dinamik hikaye üretimi, serbest metin girişi ile hikaye yönlendirme, 3D kart animasyonları ve sahneye özel ses/müzik geçişleriyle sürükleyici bir atmosfer oluşturmak.',
-            solution: 'OpenAI API ile dinamik hikaye ve prompt yönetimi kurgulandı. React + Vite ile hızlı ve akıcı bir arayüz oluşturuldu. Firebase ile kullanıcı verisi yönetimi sağlandı. 3D Tilt efektleri ve özel CSS animasyonlarıyla sinematik bir oyun deneyimi sunuldu. Hesap gerektirmeden doğrudan oynama imkanı eklendi.',
-            tech: ['React', 'Vite', 'CSS Animations', 'OpenAI API', 'Firebase', 'Prompt Engineering'],
+            desc: 'Her oynanışta farklı bir hikaye yaşatan, tamamen yapay zeka tarafından yönlendirilen bir kart oyunu. Oyuncu kendi cümlelerini yazabiliyor, seçim yapabiliyor ve hikaye o anda şekilleniyor. Bilim kurgu, fantezi gibi farklı evrenler var. 3D kart animasyonları ve sahneye özel müziklerle sinematik bir atmosfer oluşturdum. Hesap açmadan direkt oynamaya başlanabiliyor.',
+            tech: ['React', 'Vite', 'OpenAI API', 'Firebase', 'CSS Animations'],
             link: 'https://cardgame-sigma.vercel.app/'
+        },
+        portfolio: {
+            badge: 'Frontend',
+            title: 'Kişisel Portfolio Web Sitesi',
+            desc: 'Şu an baktığınız site. Hiçbir framework kullanmadan saf HTML, CSS ve JavaScript ile yazdım. Glassmorphism, Bento Grid, 3D tilt efektleri, custom cursor — hepsini vanilla JS ile sıfırdan kodladım. 60 FPS\'de çalışan animasyonlar ve koyu tema desteği var.',
+            tech: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'CSS Grid'],
+            link: 'https://miraclbs.github.io'
+        },
+        kulturhukuk: {
+            badge: 'Full-Stack',
+            title: 'Kültür Hukuk — Hukuk Blog Sitesi',
+            desc: 'Bir avukat arkadaşım için geliştirdiğim hukuk blogu. Makaleler Markdown formatında yazılıyor ve otomatik olarak siteye dönüştürülüyor. Next.js ve TypeScript altyapısının üstüne Turso veritabanı bağladım. Şifrelerin bcrypt ile hashlendiği gizli bir admin paneli var — tema butonuna uzun basınca açılıyor. Tailwind CSS ile temiz, okunabilir bir tasarım oluşturdum.',
+            tech: ['Next.js', 'TypeScript', 'Turso', 'Tailwind CSS', 'bcryptjs', 'Markdown'],
+            link: 'https://kulturhukuk.netlify.app/'
+        },
+        dizgin: {
+            badge: 'Full-Stack',
+            title: 'Dizgin Rent A Car — Araç Kiralama Sitesi',
+            desc: 'Bir araç kiralama firması için baştan sona geliştirdiğim kurumsal site. Müşteriler araç filosunu görselleriyle birlikte inceleyip WhatsApp üzerinden direkt rezervasyon yapabiliyor. Next.js App Router yapısı üstüne TypeScript ile yazdım. Sabit WhatsApp butonu, scroll progress barı, müşteri yorumları, hizmet detayları gibi bileşenleri modüler şekilde kurguladım. Tailwind CSS ile tamamen responsive bir tasarım oluşturdum.',
+            tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'WhatsApp API', 'Vercel'],
+            link: 'https://dizgin.vercel.app/'
         }
     };
 
@@ -285,14 +300,6 @@
             <span class="modal-badge">${data.badge}</span>
             <h2 class="modal-title">${data.title}</h2>
             <p class="modal-desc">${data.desc}</p>
-            <div class="modal-section">
-                <h3 class="modal-section-title">Zorluk (Challenge)</h3>
-                <p>${data.challenge}</p>
-            </div>
-            <div class="modal-section">
-                <h3 class="modal-section-title">Çözüm (Solution)</h3>
-                <p>${data.solution}</p>
-            </div>
             <div class="modal-section">
                 <h3 class="modal-section-title">Kullanılan Teknolojiler</h3>
                 <div class="modal-tech-list">
