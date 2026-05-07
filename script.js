@@ -247,14 +247,14 @@
             title: 'Kültür Hukuk — Hukuk Blog Sitesi',
             desc: 'Bir avukat arkadaşım için geliştirdiğim hukuk blogu. Makaleler Markdown formatında yazılıyor ve otomatik olarak siteye dönüştürülüyor. Next.js ve TypeScript altyapısının üstüne Turso veritabanı bağladım. Şifrelerin bcrypt ile hashlendiği gizli bir admin paneli var — tema butonuna uzun basınca açılıyor. Tailwind CSS ile temiz, okunabilir bir tasarım oluşturdum.',
             tech: ['Next.js', 'TypeScript', 'Turso', 'Tailwind CSS', 'bcryptjs', 'Markdown'],
-            link: 'https://kulturhukuk.netlify.app/'
+            link: 'https://kultur-hukuk.vercel.app/'
         },
         dizgin: {
             badge: 'Full-Stack',
             title: 'Dizgin Rent A Car — Araç Kiralama Sitesi',
             desc: 'Bir araç kiralama firması için baştan sona geliştirdiğim kurumsal site. Müşteriler araç filosunu görselleriyle birlikte inceleyip WhatsApp üzerinden direkt rezervasyon yapabiliyor. Next.js App Router yapısı üstüne TypeScript ile yazdım. Sabit WhatsApp butonu, scroll progress barı, müşteri yorumları, hizmet detayları gibi bileşenleri modüler şekilde kurguladım. Tailwind CSS ile tamamen responsive bir tasarım oluşturdum.',
             tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'WhatsApp API', 'Vercel'],
-            link: 'https://dizgin.vercel.app/'
+            link: 'https://dizginrentacar.com/'
         }
     };
 
