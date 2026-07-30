@@ -626,15 +626,43 @@
             later(() => input.focus(), 260);
         }
 
-        function closeConsole() {
-            if (!isOpen || unlocked) return;
-            isOpen = false;
+        // Wipes every trace of the console. `instant` skips the fade-out —
+        // used when the browser restores the page from bfcache.
+        function resetConsole(instant) {
             clearTimers();
-            overlay.classList.remove('active');
+            isOpen = false;
+            unlocked = false;
+            attempts = 0;
+
+            if (instant) overlay.style.transition = 'none';
+
+            overlay.classList.remove('active', 'granted');
             overlay.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
-            win.classList.remove('denied');
+
+            function scrub() {
+                win.classList.remove('granted', 'denied');
+                statusEl.className = 'secret-status';
+                statusEl.innerHTML = '';
+                bootEl.innerHTML = '';
+                input.disabled = false;
+                input.value = '';
+            }
+
+            if (instant) {
+                scrub();
+                void overlay.offsetWidth; // apply before re-enabling transitions
+                overlay.style.transition = '';
+            } else {
+                later(scrub, 400); // let the fade-out finish first
+            }
+
             input.blur();
+        }
+
+        function closeConsole() {
+            if (!isOpen) return;
+            resetConsole(false);
         }
 
         function deny() {
@@ -712,6 +740,15 @@
 
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) closeConsole();
+        });
+
+        // Coming back with the browser's back button restores this page from
+        // bfcache with the DOM *and* JS state frozen mid-unlock — which left the
+        // console stuck open and unclosable. Wipe it on every restore.
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted || isOpen || overlay.classList.contains('active')) {
+                resetConsole(true);
+            }
         });
     }
 
