@@ -50,7 +50,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 
 <body>
@@ -664,7 +664,38 @@
         </div>
     </footer>
 
-    <script src="script.js?v=2"></script>
+    <!-- Secret Access Console (Ctrl + R) -->
+    <div class="secret-overlay" id="secret-console" aria-hidden="true" role="dialog" aria-modal="true"
+        aria-label="Gizli erişim konsolu">
+        <div class="secret-window" id="secret-window">
+            <div class="secret-header">
+                <span class="terminal-dot red"></span>
+                <span class="terminal-dot yellow"></span>
+                <span class="terminal-dot green"></span>
+                <span class="secret-title">root@miraclbs — secure_access.sh</span>
+                <button class="secret-close" id="secret-close" aria-label="Konsolu kapat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="secret-body">
+                <div class="secret-boot" id="secret-boot"></div>
+                <div class="secret-input-line">
+                    <span class="secret-prompt">access —code $</span>
+                    <input type="text" id="secret-input" class="secret-input" autocomplete="off" spellcheck="false"
+                        autocapitalize="off" autocorrect="off" maxlength="32" aria-label="Erişim kodu">
+                </div>
+                <div class="secret-status" id="secret-status" role="status" aria-live="polite"></div>
+                <div class="secret-progress" id="secret-progress"><span></span></div>
+                <div class="secret-hint">
+                    <i class="fas fa-lock"></i>
+                    Gizli site için erişim kodunu girin &nbsp;·&nbsp; <kbd>Enter</kbd> onayla &nbsp;·&nbsp;
+                    <kbd>Esc</kbd> çık
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>

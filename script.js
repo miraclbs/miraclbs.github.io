@@ -537,6 +537,7 @@
         initFooterYear();
         initThemeToggle();
         initEmailCopy();
+        initSecretConsole();
     });
 
     /* ------------------------------------------
@@ -552,6 +553,165 @@
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2000);
             });
+        });
+    }
+
+    /* ------------------------------------------
+       11. SECRET ACCESS CONSOLE (Ctrl + R)
+       ------------------------------------------ */
+    function initSecretConsole() {
+        const overlay = document.getElementById('secret-console');
+        const win = document.getElementById('secret-window');
+        const input = document.getElementById('secret-input');
+        const bootEl = document.getElementById('secret-boot');
+        const statusEl = document.getElementById('secret-status');
+        const closeBtn = document.getElementById('secret-close');
+        if (!overlay || !win || !input || !bootEl || !statusEl) return;
+
+        const SECRET_CODE = 'ilovemimi';
+        const SECRET_URL = 'https://mimigamestudios.netlify.app';
+
+        const BOOT_LINES = [
+            '<span class="dim">$</span> ./secure_access.sh --hidden',
+            '<span class="ok">✓</span> Güvenli bağlantı kuruldu',
+            '<span class="ok">✓</span> Kimlik doğrulama modülü yüklendi',
+            '<span class="warn">!</span> GİZLİ ALAN — erişim kodu gerekli'
+        ];
+
+        let isOpen = false;
+        let unlocked = false;
+        let attempts = 0;
+        let timers = [];
+
+        function clearTimers() {
+            timers.forEach(clearTimeout);
+            timers = [];
+        }
+
+        function later(fn, ms) {
+            timers.push(setTimeout(fn, ms));
+        }
+
+        function runBoot() {
+            bootEl.innerHTML = '';
+            BOOT_LINES.forEach((line, i) => {
+                later(() => {
+                    const div = document.createElement('div');
+                    div.className = 'secret-boot-line';
+                    div.innerHTML = line;
+                    bootEl.appendChild(div);
+                }, 180 + i * 220);
+            });
+        }
+
+        function openConsole() {
+            if (isOpen) { input.focus(); return; }
+            isOpen = true;
+            unlocked = false;
+            attempts = 0;
+
+            clearTimers();
+            win.classList.remove('granted', 'denied');
+            overlay.classList.remove('granted');
+            statusEl.className = 'secret-status';
+            statusEl.innerHTML = '';
+            input.disabled = false;
+            input.value = '';
+
+            overlay.classList.add('active');
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            runBoot();
+            later(() => input.focus(), 260);
+        }
+
+        function closeConsole() {
+            if (!isOpen || unlocked) return;
+            isOpen = false;
+            clearTimers();
+            overlay.classList.remove('active');
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            win.classList.remove('denied');
+            input.blur();
+        }
+
+        function deny() {
+            attempts++;
+            win.classList.remove('denied');
+            void win.offsetWidth; // restart the shake animation
+            win.classList.add('denied');
+
+            statusEl.className = 'secret-status error';
+            statusEl.innerHTML =
+                '<i class="fas fa-times-circle"></i>ERİŞİM REDDEDİLDİ — geçersiz kod' +
+                (attempts > 1 ? '<span class="secret-status-sub">' + attempts + '. başarısız deneme kaydedildi.</span>' : '');
+
+            input.select();
+        }
+
+        function grant() {
+            unlocked = true;
+            input.disabled = true;
+            win.classList.remove('denied');
+            win.classList.add('granted');
+            overlay.classList.add('granted');
+
+            statusEl.className = 'secret-status success';
+            statusEl.innerHTML =
+                '<i class="fas fa-check-circle"></i>KOD KABUL EDİLDİ' +
+                '<span class="secret-status-sub">Kimlik doğrulandı · gizli alan açılıyor...</span>';
+
+            later(() => {
+                const div = document.createElement('div');
+                div.className = 'secret-boot-line';
+                div.innerHTML = '<span class="ok">✓</span> mimigamestudios.netlify.app adresine yönlendiriliyor';
+                bootEl.appendChild(div);
+            }, 600);
+
+            later(() => { window.location.href = SECRET_URL; }, 2000);
+        }
+
+        function submit() {
+            if (unlocked) return;
+            const value = input.value.trim().toLowerCase();
+            if (!value) return;
+            if (value === SECRET_CODE) grant();
+            else deny();
+        }
+
+        // Ctrl/Cmd + R opens the console instead of reloading.
+        // (F5 and Ctrl+Shift+R still reload normally.)
+        document.addEventListener('keydown', (e) => {
+            const isR = e.code === 'KeyR' || (e.key || '').toLowerCase() === 'r';
+            if ((e.ctrlKey || e.metaKey) && isR && !e.shiftKey && !e.altKey) {
+                e.preventDefault();
+                openConsole();
+                return;
+            }
+            if (isOpen && e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                closeConsole();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submit();
+            } else if (statusEl.classList.contains('error')) {
+                statusEl.className = 'secret-status';
+                statusEl.innerHTML = '';
+                win.classList.remove('denied');
+            }
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeConsole);
+
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeConsole();
         });
     }
 

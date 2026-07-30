@@ -2526,6 +2526,391 @@ section {
 }
 
 /* ==========================================
+   SECRET ACCESS CONSOLE (Ctrl + R)
+   ========================================== */
+.secret-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(3, 3, 8, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.secret-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Scanline texture */
+.secret-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.025) 0px,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 3px);
+}
+
+.secret-window {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    background: rgba(8, 8, 14, 0.96);
+    border: 1px solid rgba(59, 130, 246, 0.28);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7),
+        0 0 70px rgba(59, 130, 246, 0.12);
+    transform: translateY(24px) scale(0.94);
+    opacity: 0;
+    transition: transform 0.5s var(--ease-spring), opacity 0.4s ease,
+        border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.secret-overlay.active .secret-window {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.secret-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.secret-title {
+    margin-left: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+.secret-close {
+    margin-left: auto;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: none;
+    transition: color 0.25s ease, background 0.25s ease;
+}
+
+.secret-close:hover {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.12);
+}
+
+.secret-body {
+    padding: 22px 22px 20px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 0.85rem;
+}
+
+.secret-boot {
+    min-height: 82px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-size: 0.8rem;
+}
+
+.secret-boot-line {
+    animation: secret-line-in 0.25s ease both;
+}
+
+.secret-boot-line .ok {
+    color: #22c55e;
+}
+
+.secret-boot-line .warn {
+    color: #fbbf24;
+}
+
+.secret-boot-line .dim {
+    color: var(--text-muted);
+}
+
+@keyframes secret-line-in {
+    from {
+        opacity: 0;
+        transform: translateX(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.secret-input-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.secret-input-line:focus-within {
+    border-color: rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.08);
+}
+
+.secret-prompt {
+    color: #22c55e;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.secret-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    caret-color: var(--accent-cyan);
+    font-family: inherit;
+    font-size: 0.95rem;
+    letter-spacing: 0.14em;
+    cursor: none;
+}
+
+.secret-input:disabled {
+    color: #22c55e;
+    -webkit-text-fill-color: #22c55e;
+    opacity: 1;
+}
+
+.secret-status {
+    min-height: 22px;
+    margin-top: 14px;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+}
+
+.secret-status i {
+    margin-right: 6px;
+}
+
+.secret-status.error {
+    color: #f87171;
+    animation: secret-line-in 0.25s ease both;
+}
+
+.secret-status.success {
+    color: #22c55e;
+    font-weight: 700;
+    animation: secret-granted-pop 0.5s var(--ease-spring) both;
+}
+
+.secret-status .secret-status-sub {
+    display: block;
+    margin-top: 6px;
+    font-weight: 400;
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+}
+
+@keyframes secret-granted-pop {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    60% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Progress bar — only shown once the code is accepted */
+.secret-progress {
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.secret-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #22c55e, var(--accent-cyan));
+}
+
+.secret-window.granted .secret-progress {
+    opacity: 1;
+}
+
+.secret-window.granted .secret-progress span {
+    animation: secret-progress-fill 1.6s ease-out forwards;
+}
+
+@keyframes secret-progress-fill {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.secret-hint {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+}
+
+.secret-hint i {
+    margin-right: 4px;
+}
+
+.secret-hint kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    font-family: 'Courier New', monospace;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+/* Denied — shake + red glow */
+.secret-window.denied {
+    border-color: rgba(248, 113, 113, 0.5);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(248, 113, 113, 0.18);
+    animation: secret-shake 0.45s ease;
+}
+
+@keyframes secret-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    15% {
+        transform: translateX(-9px);
+    }
+
+    30% {
+        transform: translateX(8px);
+    }
+
+    45% {
+        transform: translateX(-6px);
+    }
+
+    60% {
+        transform: translateX(5px);
+    }
+
+    80% {
+        transform: translateX(-2px);
+    }
+}
+
+/* Granted — green glow + scan sweep */
+.secret-window.granted {
+    border-color: rgba(34, 197, 94, 0.55);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7),
+        0 0 80px rgba(34, 197, 94, 0.22);
+}
+
+.secret-window.granted::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+            transparent 0%,
+            rgba(34, 197, 94, 0.14) 45%,
+            rgba(34, 197, 94, 0.3) 50%,
+            rgba(34, 197, 94, 0.14) 55%,
+            transparent 100%);
+    animation: secret-scan 1.1s ease-in-out 2 forwards;
+}
+
+@keyframes secret-scan {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+.secret-overlay.granted {
+    animation: secret-flash 0.5s ease;
+}
+
+@keyframes secret-flash {
+
+    0%,
+    100% {
+        background: rgba(3, 3, 8, 0.85);
+    }
+
+    25% {
+        background: rgba(6, 30, 16, 0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .secret-body {
+        padding: 18px;
+    }
+
+    .secret-prompt {
+        font-size: 0.72rem;
+    }
+
+    .secret-input {
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+    }
+}
+
+/* ==========================================
    REDUCED MOTION
    ========================================== */
 @media (prefers-reduced-motion: reduce) {
@@ -2544,6 +2929,20 @@ section {
     }
 
     .orb {
+        animation: none;
+    }
+
+    .secret-window.denied,
+    .secret-overlay.granted {
+        animation: none;
+    }
+
+    .secret-window.granted::after {
+        display: none;
+    }
+
+    .secret-window.granted .secret-progress span {
+        width: 100%;
         animation: none;
     }
 }
