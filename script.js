@@ -400,7 +400,7 @@
                 output: [
                     '{ <span class="output-key">"ad"</span>: <span class="output-string">"Atıf Miraç İlbaş"</span>,',
                     '  <span class="output-key">"rol"</span>: <span class="output-string">"Yazılım Mühendisi"</span>,',
-                    '  <span class="output-key">"konum"</span>: <span class="output-string">"Ankara, TR"</span>,',
+                    '  <span class="output-key">"konum"</span>: <span class="output-string">"Türkiye"</span>,',
                     '  <span class="output-key">"stack"</span>: [<span class="output-string">"React"</span>, <span class="output-string">"Next.js"</span>, <span class="output-string">".NET"</span>],',
                     '  <span class="output-key">"ai"</span>: <span class="output-string">"Prompt Engineering ✓"</span> }'
                 ]
