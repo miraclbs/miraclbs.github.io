@@ -221,6 +221,13 @@
             tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'REST API', 'Node.js'],
             link: 'https://trevesto.com/'
         },
+        eksenpatent: {
+            badge: 'Full-Stack',
+            title: 'Eksen Patent — Marka & Patent Vekilliği',
+            desc: 'İzmir\'de 1999\'dan beri marka tescili, patent ve tasarım vekilliği yapan bir firma için geliştirdiğim kurumsal site. Ziyaretçiler ücretsiz marka sorgulama formuyla başvuru bırakabiliyor. Bu form ve iletişim talepleri PHP ile yazdığım API uç noktalarına gidiyor, spam\'e karşı da reCAPTCHA v3 ile korunuyor. Sitede hizmet sayfaları, 4 adımlı marka tescil süreci, 500\'den fazla markanın yer aldığı referanslar sayfası ve satılık markalar bölümü var. Temiz URL yapısı, canonical, Open Graph ve JSON-LD şema işaretlemeleriyle teknik SEO\'yu baştan kurguladım. WhatsApp, tıkla-ara ve Google Maps entegrasyonlarıyla müşterilerin firmaya ulaşmasını kolaylaştırdım.',
+            tech: ['PHP', 'HTML5', 'CSS3', 'JavaScript', 'reCAPTCHA v3', 'JSON-LD / SEO'],
+            link: 'https://www.eksenpatent.com/'
+        },
         stockanalyze: {
             badge: 'Full-Stack / AI',
             title: 'Stock Analyze — AI Destekli Finansal Analiz',

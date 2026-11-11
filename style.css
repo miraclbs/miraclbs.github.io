@@ -1195,6 +1195,39 @@ section {
     border: 1.5px solid rgba(255,255,255,0.1);
 }
 
+/* Eksen Patent: marka renkleri (lacivert + kurumsal mavi + altın) */
+.project-card[data-project="eksenpatent"] {
+    background-image:
+        radial-gradient(ellipse at 88% 12%, rgba(199, 154, 75, 0.38) 0%, transparent 55%),
+        radial-gradient(ellipse at 8% 95%, rgba(22, 104, 192, 0.5) 0%, transparent 60%),
+        linear-gradient(135deg, #071a30 0%, #0c2a4d 55%, #081d36 100%);
+    border: 1.5px solid rgba(199, 154, 75, 0.25);
+    color: #fff !important;
+}
+
+.project-card[data-project="eksenpatent"] .project-number,
+.project-card[data-project="eksenpatent"] .project-title,
+.project-card[data-project="eksenpatent"] .project-description {
+    color: #fff !important;
+}
+
+.project-card[data-project="eksenpatent"] .project-category-badge {
+    color: #f3dcae !important;
+    background: rgba(199, 154, 75, 0.15);
+    border-color: rgba(199, 154, 75, 0.4);
+}
+
+.project-card[data-project="eksenpatent"] .tech-icon,
+.project-card[data-project="eksenpatent"] .project-detail-btn,
+.project-card[data-project="eksenpatent"] .project-external {
+    color: #e0e0e0 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+[data-theme="light"] .project-card[data-project="eksenpatent"] {
+    border: 1.5px solid rgba(199, 154, 75, 0.3);
+}
+
 .project-card[data-project="stockanalyze"] {
     background-image: url('assets/bg-stockanalyze.webp');
     border: 1.5px solid rgba(0,0,0,0.1);
