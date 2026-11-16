@@ -224,9 +224,19 @@
         eksenpatent: {
             badge: 'Full-Stack',
             title: 'Eksen Patent — Marka & Patent Vekilliği',
-            desc: 'İzmir\'de 1999\'dan beri marka tescili, patent ve tasarım vekilliği yapan bir firma için geliştirdiğim kurumsal site. Ziyaretçiler ücretsiz marka sorgulama formuyla başvuru bırakabiliyor. Bu form ve iletişim talepleri PHP ile yazdığım API uç noktalarına gidiyor, spam\'e karşı da reCAPTCHA v3 ile korunuyor. Sitede hizmet sayfaları, 4 adımlı marka tescil süreci, 500\'den fazla markanın yer aldığı referanslar sayfası ve satılık markalar bölümü var. Temiz URL yapısı, canonical, Open Graph ve JSON-LD şema işaretlemeleriyle teknik SEO\'yu baştan kurguladım. WhatsApp, tıkla-ara ve Google Maps entegrasyonlarıyla müşterilerin firmaya ulaşmasını kolaylaştırdım.',
-            tech: ['PHP', 'HTML5', 'CSS3', 'JavaScript', 'reCAPTCHA v3', 'JSON-LD / SEO'],
+            desc: 'İzmir\'de 1999\'dan beri marka tescili, patent ve tasarım vekilliği yapan bir firmanın eski sitesini baştan yazdım. Site PHP ve SQLite ile çalışıyor; firmanın mevcut paylaşımlı hosting paketine ek sunucu gerekmeden kuruluyor, SQLite olmayan ortamda tek ayarla MySQL\'e geçebiliyor. Hizmet sayfaları, sayfa metinleri, yüzlerce referans logosu, satılık markalar, duyurular ve form mesajları şifre korumalı bir admin panelinden yönetiliyor. Ücretsiz marka sorgulama ve iletişim formları reCAPTCHA v3 ile spam\'e karşı korunuyor. Eski sitenin adresleri yeni sayfalara kalıcı olarak yönlendiriliyor; temiz URL\'ler, sitemap, canonical, Open Graph ve JSON-LD ile teknik SEO\'yu baştan kurguladım. İleride VPS\'e taşınmak için sitenin Next.js + Docker sürümünü de hazırladım.',
+            tech: ['PHP 8', 'SQLite / PDO', 'JavaScript', 'reCAPTCHA v3', 'Admin Panel', 'JSON-LD / SEO', 'Next.js', 'Docker'],
             link: 'https://www.eksenpatent.com/'
+        },
+        rentacar: {
+            badge: 'Full-Stack / Desktop',
+            title: 'Rent A Car Yönetim Programı',
+            video: 'AUqFTjf-Zf4',
+            desc: 'Dizgin Rent A Car için geliştirdiğim, firmanın günlük işleyişini tek panelde toplayan yönetim programı. Filo, kiralama, rezervasyon, müşteri, kasa (nakit / POS / İBAN), cari hesap, envanter, görev ve kara liste yönetimi var. Araçların KM ve bakım durumu izleniyor, bakım zamanı yaklaşınca sistem uyarıyor; kiralama sözleşmesi tek tıkla hazırlanıyor. Personel için beş yetki seviyesi ve her işlemi kimin yaptığını gösteren olay geçmişi bulunuyor. Turborepo monorepo yapısında Next.js 15 web paneli ve Electron ile paketlenmiş, otomatik güncellenen bir Windows masaüstü uygulaması olarak çalışıyor. Veriler Turso (libSQL) bulut veritabanında Drizzle ORM ile tutuluyor ve masaüstü uygulaması bulutla senkronize oluyor. Yukarıdaki tanıtım videosunu da Remotion ile kodla ürettim.',
+            tech: ['Next.js 15', 'TypeScript', 'Electron', 'Turso (libSQL)', 'Drizzle ORM', 'Tailwind CSS', 'Zod', 'SWR', 'Turborepo', 'Vitest', 'Remotion'],
+            link: 'https://www.youtube.com/watch?v=AUqFTjf-Zf4',
+            linkLabel: 'YouTube\'da İzle',
+            linkIcon: 'fab fa-youtube'
         },
         stockanalyze: {
             badge: 'Full-Stack / AI',
@@ -289,6 +299,8 @@
         function closeModal() {
             modal.classList.remove('active');
             document.body.style.overflow = '';
+            // Gömülü video varsa kaldır ki pencere kapandıktan sonra çalmaya devam etmesin
+            modalContent.querySelectorAll('.modal-video').forEach(v => v.remove());
         }
 
         if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -305,7 +317,19 @@
     function buildModalHTML(data) {
         let html = `
             <span class="modal-badge">${data.badge}</span>
-            <h2 class="modal-title">${data.title}</h2>
+            <h2 class="modal-title">${data.title}</h2>`;
+
+        if (data.video) {
+            html += `
+            <div class="modal-video">
+                <iframe src="https://www.youtube-nocookie.com/embed/${data.video}?rel=0"
+                    title="${data.title} — tanıtım videosu" loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>`;
+        }
+
+        html += `
             <p class="modal-desc">${data.desc}</p>
             <div class="modal-section">
                 <h3 class="modal-section-title">Kullanılan Teknolojiler</h3>
@@ -317,8 +341,8 @@
         if (data.link) {
             html += `
             <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="modal-link">
-                <i class="fas fa-external-link-alt"></i>
-                Projeyi Görüntüle
+                <i class="${data.linkIcon || 'fas fa-external-link-alt'}"></i>
+                ${data.linkLabel || 'Projeyi Görüntüle'}
             </a>`;
         }
         return html;
